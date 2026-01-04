@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Eye, Download, X } from 'lucide-react';
+
+// Import PDF files
+import bai1Pdf from '../assets/bai1.pdf';
+import bai2Pdf from '../assets/bai2.pdf';
+import bai3Pdf from '../assets/bai3.pdf';
+import bai4Pdf from '../assets/bai4.pdf';
+import bai5Pdf from '../assets/bai5.pdf';
+import bai6Pdf from '../assets/bai6.pdf';
 
 const ProjectsPage = () => {
     const [selectedProject, setSelectedProject] = useState(null);
+    const [viewingPdf, setViewingPdf] = useState(null);
 
     const projects = [
         {
@@ -10,21 +19,27 @@ const ProjectsPage = () => {
             title: 'Bài tập 1 - Chương 1',
             subtitle: 'Máy tính và các thiết bị ngoại vi',
             description: 'Tổng quan về máy tính, các thành phần cơ bản và thiết bị ngoại vi (bàn phím, chuột, máy in…), kèm minh chứng thực hành.',
-            color: 'from-blue-400 to-blue-600'
+            color: 'from-blue-400 to-blue-600',
+            pdfFile: bai1Pdf,
+            pdfName: 'Bai1_MayTinh.pdf'
         },
         {
             id: 2,
             title: 'Bài tập 2 - Chương 2',
             subtitle: 'Khai thác dữ liệu và thông tin',
             description: 'Thực hành tìm kiếm, thu thập và tổ chức thông tin; biết cách đánh giá độ tin cậy của nguồn và trích dẫn phù hợp.',
-            color: 'from-indigo-400 to-indigo-600'
+            color: 'from-indigo-400 to-indigo-600',
+            pdfFile: bai2Pdf,
+            pdfName: 'Bai2_KhaiThacDuLieu.pdf'
         },
         {
             id: 3,
             title: 'Bài tập 2 - Chương 3',
             subtitle: 'Tổng quan về trí tuệ nhân tạo',
             description: 'Tổng quan về AI: khái niệm, ứng dụng phổ biến, lợi ích – rủi ro và ví dụ liên hệ thực tế trong học tập.',
-            color: 'from-purple-400 to-purple-600'
+            color: 'from-purple-400 to-purple-600',
+            pdfFile: bai3Pdf,
+            pdfName: 'Bai3_TriTueNhanTao.pdf'
         },
         {
             id: 4,
@@ -32,6 +47,8 @@ const ProjectsPage = () => {
             subtitle: 'Giao tiếp và hợp tác trong môi trường số',
             description: 'Rèn kỹ năng giao tiếp số và làm việc nhóm online: phân công, trao đổi, chia sẻ tài liệu và quy tắc ứng xử.',
             color: 'from-pink-400 to-pink-600',
+            pdfFile: bai4Pdf,
+            pdfName: 'Bai4_GiaoTiepHopTac.pdf',
             detailed: true
         },
         {
@@ -39,14 +56,18 @@ const ProjectsPage = () => {
             title: 'Bài tập 2 - Chương 5',
             subtitle: 'Sáng tạo nội dung số',
             description: 'Thực hành sáng tạo nội dung số: lên ý tưởng, lựa chọn công cụ, biên tập/thiết kế và lưu ý bản quyền khi sử dụng tài nguyên.',
-            color: 'from-orange-400 to-orange-600'
+            color: 'from-orange-400 to-orange-600',
+            pdfFile: bai5Pdf,
+            pdfName: 'Bai5_SangTaoNoiDung.pdf'
         },
         {
             id: 6,
             title: 'Bài tập 4 - Chương 6',
             subtitle: 'An toàn và liêm chính học thuật',
             description: 'Tập trung vào an toàn số, bảo mật tài khoản, quyền riêng tư và liêm chính học thuật (tránh đạo văn, trích dẫn đúng, dùng AI minh bạch).',
-            color: 'from-teal-400 to-teal-600'
+            color: 'from-teal-400 to-teal-600',
+            pdfFile: bai6Pdf,
+            pdfName: 'Bai6_AnToanLiemChinh.pdf'
         }
     ];
 
@@ -97,11 +118,30 @@ const ProjectsPage = () => {
         ]
     };
 
+    const handleViewPdf = (e, project) => {
+        e.stopPropagation();
+        setViewingPdf(project);
+    };
+
+    const handleDownloadPdf = (e, project) => {
+        e.stopPropagation();
+        const link = document.createElement('a');
+        link.href = project.pdfFile;
+        link.download = project.pdfName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const closePdfViewer = () => {
+        setViewingPdf(null);
+    };
+
     return (
         <div className="space-y-6 animate-fadeIn">
             <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Dự án</h1>
-                <p className="text-gray-600 text-sm sm:text-base">Nội dung 6 bài được đưa vào đầy đủ (văn bản + hình ảnh). Có thể click để xem chi tiết.</p>
+                <p className="text-gray-600 text-sm sm:text-base">Nội dung 6 bài được đưa vào đầy đủ (văn bản + hình ảnh). Có thể xem hoặc tải về file PDF.</p>
             </div>
 
             <div className="grid gap-4">
@@ -117,9 +157,28 @@ const ProjectsPage = () => {
                             <p className="text-white/90 text-sm sm:text-base">{project.subtitle}</p>
                         </div>
                         <div className="p-4 sm:p-6">
-                            <p className="text-gray-700 text-sm sm:text-base">{project.description}</p>
+                            <p className="text-gray-700 text-sm sm:text-base mb-4">{project.description}</p>
+
+                            {/* View and Download buttons */}
+                            <div className="flex flex-wrap gap-2 sm:gap-3">
+                                <button
+                                    onClick={(e) => handleViewPdf(e, project)}
+                                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    <Eye size={16} />
+                                    <span>Xem PDF</span>
+                                </button>
+                                <button
+                                    onClick={(e) => handleDownloadPdf(e, project)}
+                                    className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    <Download size={16} />
+                                    <span>Tải về</span>
+                                </button>
+                            </div>
+
                             {project.detailed && (
-                                <div className="mt-3 flex items-center gap-2 text-blue-600 text-sm font-medium">
+                                <div className="mt-4 flex items-center gap-2 text-blue-600 text-sm font-medium">
                                     <span>Xem báo cáo chi tiết</span>
                                     <ChevronRight size={16} className={`transition-transform ${selectedProject === project.id ? 'rotate-90' : ''}`} />
                                 </div>
@@ -191,6 +250,45 @@ const ProjectsPage = () => {
                     </div>
                 ))}
             </div>
+
+            {/* PDF Viewer Modal */}
+            {viewingPdf && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl w-full max-w-5xl h-[90vh] flex flex-col shadow-2xl">
+                        {/* Modal Header */}
+                        <div className={`bg-gradient-to-r ${viewingPdf.color} p-4 rounded-t-xl flex items-center justify-between`}>
+                            <div className="text-white">
+                                <h3 className="font-bold text-lg">{viewingPdf.title}</h3>
+                                <p className="text-white/80 text-sm">{viewingPdf.subtitle}</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={(e) => handleDownloadPdf(e, viewingPdf)}
+                                    className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    <Download size={16} />
+                                    <span className="hidden sm:inline">Tải về</span>
+                                </button>
+                                <button
+                                    onClick={closePdfViewer}
+                                    className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* PDF Embed */}
+                        <div className="flex-1 bg-gray-100">
+                            <iframe
+                                src={viewingPdf.pdfFile}
+                                className="w-full h-full"
+                                title={viewingPdf.title}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
