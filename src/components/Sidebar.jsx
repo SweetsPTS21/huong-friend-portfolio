@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Briefcase, FileText, Menu, X } from 'lucide-react';
+import avatar from '../assets/avatar.jpg';
 
 const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
     const navItems = [
@@ -47,7 +48,11 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, setIsOpen }) => {
                 <div className="p-6 pt-16 lg:pt-6">
                     <div className="mb-8">
                         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mb-3 shadow-md">
-                            <span className="text-white text-2xl font-bold">LH</span>
+                            <img
+                                src={avatar}
+                                alt="Avatar"
+                                className="w-full h-full rounded-full object-cover"
+                            />
                         </div>
                         <h1 className="text-xl font-bold text-gray-800">Lan Hương</h1>
                         <p className="text-sm text-gray-600">Digital Portfolio</p>

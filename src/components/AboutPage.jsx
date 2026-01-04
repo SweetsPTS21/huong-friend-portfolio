@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronRight, Target, Sparkles, GraduationCap } from 'lucide-react';
+import avatar from '../assets/avatar.jpg';
 
 const AboutPage = () => {
     const skills = [
@@ -42,9 +43,12 @@ const AboutPage = () => {
                         <p className="text-blue-100 text-base sm:text-lg mb-2 sm:mb-4">Sinh viên ngành Luật Thương Mại Quốc Tế</p>
                         <p className="text-blue-50 text-sm sm:text-base">Trường Đại học Luật - ĐHQGHN</p>
                     </div>
-                    <div className="bg-white/20 backdrop-blur-sm rounded-lg px-3 sm:px-4 py-2 self-start">
-                        <p className="text-sm font-medium">Phong cách</p>
-                        <p className="text-xs text-blue-100">Gọn • Rõ • Có hệ thống</p>
+                    <div className="w-40 h-40 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mb-3 shadow-md">
+                        <img
+                            src={avatar}
+                            alt="Avatar"
+                            className="w-full h-full rounded-full object-cover"
+                        />
                     </div>
                 </div>
             </div>
